@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  meu-postgres:
+    image: postgres:latest
+    container_name: fase5-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ms_usuarios,ms_gestao_itens,ms_carrinho,ms_pagamentos
+    command: >
+      bash -c '
+        echo "CREATE DATABASE ms_usuarios;" >> /docker-entrypoint-initdb.d/init.sql &&
+        echo "CREATE DATABASE ms_gestao_itens;" >> /docker-entrypoint-initdb.d/init.sql &&
+        echo "CREATE DATABASE ms_carrinho;" >> /docker-entrypoint-initdb.d/init.sql &&
+        echo "CREATE DATABASE ms_pagamentos;" >> /docker-entrypoint-initdb.d/init.sql &&
+        docker-entrypoint.sh postgres
+      ' 
+    ports:
+      - "5432:5432"
+    networks:
+      - my_network
+networks:
+  my_network:
