@@ -108,10 +108,8 @@ public class CarrinhoService {
             }
         });
 
-      //  this.deletaCarrinho(id);
-
-        itemRepository.saveAll(itensExistentes);
-        carrinho.setItens(itensExistentes);
+        itemRepository.saveAll(itensAtualizados);
+        carrinho.setItens(itensAtualizados);
         repository.save(carrinho);
 
         return new CarrinhoResponse(carrinho);

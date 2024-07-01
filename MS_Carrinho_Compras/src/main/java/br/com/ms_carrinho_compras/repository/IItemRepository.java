@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface IItemRepository extends JpaRepository<Item, UUID> {
-    //@Query("DELETE FROM Item i WHERE i.idcarrinho = :carrinho")
-    //void deleteByCarrinho(@Param("carrinho") Carrinho carrinho);
+
     void deleteByCarrinho(Carrinho carrinho);
+    void deleteByIditem(UUID id);
 }
