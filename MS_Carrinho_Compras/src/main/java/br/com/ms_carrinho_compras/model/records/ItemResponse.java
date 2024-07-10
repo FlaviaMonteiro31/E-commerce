@@ -16,9 +16,11 @@ import java.util.UUID;
 public class ItemResponse {
     private UUID idproduto;
     private BigDecimal quantidade;
+    private BigDecimal valoritem;
 
     public ItemResponse(Item item) {
         this.idproduto = item.getIdproduto();
         this.quantidade = item.getQuantidade();
+        this.valoritem = item.getValoritem();
     }
 }

@@ -1,4 +1,5 @@
 package br.com.ms_carrinho_compras.model;
+import br.com.ms_carrinho_compras.model.records.ConsultaProdutoResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +30,6 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "idcarrinho")
     private Carrinho carrinho;
-    private BigDecimal valorItens;
-
+    private BigDecimal valoritem;
 
 }

@@ -2,6 +2,8 @@ package br.com.ms_gestao_itens.service;
 
 import br.com.ms_gestao_itens.exception.ProdutoException;
 import br.com.ms_gestao_itens.model.Produto;
+import br.com.ms_gestao_itens.model.records.ConsultaProdutoRequest;
+import br.com.ms_gestao_itens.model.records.ConsultaProdutoResponse;
 import br.com.ms_gestao_itens.model.records.ProdutoResponse;
 import br.com.ms_gestao_itens.model.records.ProdutoResquest;
 import br.com.ms_gestao_itens.repository.IProdutoRepository;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -43,6 +46,10 @@ public class ProdutoService {
     public ProdutoResponse listaPorId(UUID produtoId) throws ProdutoException {
         var pe = repository.findById(produtoId).orElseThrow(() -> new ProdutoException("Produto não localizado."));
         return new ProdutoResponse(pe);
+    }
+    public ConsultaProdutoResponse consultaProdutoPorId(ConsultaProdutoRequest request){
+        Produto pe = repository.findProdutoByIdNative(request.getId());
+        return new ConsultaProdutoResponse(pe);
     }
     public void deletaProduto(UUID id) throws ProdutoException {
         try {

@@ -1,5 +1,7 @@
 package br.com.ms_gestao_itens.controller;
 import br.com.ms_gestao_itens.exception.ProdutoException;
+import br.com.ms_gestao_itens.model.records.ConsultaProdutoRequest;
+import br.com.ms_gestao_itens.model.records.ConsultaProdutoResponse;
 import br.com.ms_gestao_itens.model.records.ProdutoResponse;
 import br.com.ms_gestao_itens.model.records.ProdutoResquest;
 import br.com.ms_gestao_itens.service.ProdutoService;
@@ -79,6 +81,12 @@ public class ProdutoController {
     public ResponseEntity deletaProduto(@PathVariable UUID id) throws ProdutoException {
         service.deletaProduto(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/consultaProduto")
+    public ResponseEntity<ConsultaProdutoResponse> consultaProduto(@RequestBody @Valid ConsultaProdutoRequest request){
+        var produto = service.consultaProdutoPorId(request);
+        return ResponseEntity.ok(produto);
     }
 
 }

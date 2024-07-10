@@ -3,12 +3,15 @@ package br.com.ms_carrinho_compras.controller;
 import br.com.ms_carrinho_compras.exception.CarrinhoException;
 import br.com.ms_carrinho_compras.model.records.CarrinhoRequest;
 import br.com.ms_carrinho_compras.model.records.CarrinhoResponse;
+import br.com.ms_carrinho_compras.model.records.ConsultaProdutoRequest;
+import br.com.ms_carrinho_compras.model.records.ConsultaProdutoResponse;
 import br.com.ms_carrinho_compras.service.CarrinhoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -78,6 +81,11 @@ public class CarrinhoController {
     public ResponseEntity deletaCarrinho(@PathVariable UUID id) throws CarrinhoException {
         service.deletaCarrinho(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/consultaProduto", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ConsultaProdutoResponse> consulta(@RequestBody @Valid ConsultaProdutoRequest request){
+        return ResponseEntity.ok(service.consulta(request));
     }
 
 }
