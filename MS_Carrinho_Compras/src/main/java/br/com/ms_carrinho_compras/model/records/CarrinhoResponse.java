@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ public class CarrinhoResponse {
     private UUID id;
     private UUID usuario;
     private List<ItemResponse> itens;
+    private BigDecimal valorCarrinho;
 
     public CarrinhoResponse(Carrinho carrinho) {
         this.id = carrinho.getIdcarrinho();
@@ -25,6 +27,7 @@ public class CarrinhoResponse {
         this.itens = carrinho.getItens().stream()
                .map(ItemResponse::new)
                 .collect(Collectors.toList());
+        this.valorCarrinho = carrinho.getValorCarrinho();
 
     }
 }

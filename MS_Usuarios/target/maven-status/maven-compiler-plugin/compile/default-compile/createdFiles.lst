@@ -1,0 +1,10 @@
+br\com\ms_usuarios\service\UsuarioService.class
+br\com\ms_usuarios\repository\IUsuarioRepository.class
+br\com\ms_usuarios\model\records\UsuarioRequest.class
+br\com\ms_usuarios\model\records\ConsultaUsuarioRequest.class
+br\com\ms_usuarios\exception\UsuarioException.class
+br\com\ms_usuarios\model\records\ConsultaUsuarioResponse.class
+br\com\ms_usuarios\model\Usuario.class
+br\com\ms_usuarios\controller\UsuarioController.class
+br\com\ms_usuarios\model\records\UsuarioResponse.class
+br\com\ms_usuarios\MsUsuariosApplication.class

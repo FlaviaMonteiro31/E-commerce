@@ -2,6 +2,8 @@ package br.com.ms_usuarios.service;
 
 import br.com.ms_usuarios.exception.UsuarioException;
 import br.com.ms_usuarios.model.Usuario;
+import br.com.ms_usuarios.model.records.ConsultaUsuarioRequest;
+import br.com.ms_usuarios.model.records.ConsultaUsuarioResponse;
 import br.com.ms_usuarios.model.records.UsuarioRequest;
 import br.com.ms_usuarios.model.records.UsuarioResponse;
 import br.com.ms_usuarios.repository.IUsuarioRepository;
@@ -75,6 +77,10 @@ public class UsuarioService {
             throw new UsuarioException("Violação de integridade da base");
         }
 
+    }
+    public ConsultaUsuarioResponse consultaUsuarioPorId(ConsultaUsuarioRequest request){
+        Usuario u = repository.findUsuarioByIdNative(request.getClientId());
+        return new ConsultaUsuarioResponse(u);
     }
 
 }

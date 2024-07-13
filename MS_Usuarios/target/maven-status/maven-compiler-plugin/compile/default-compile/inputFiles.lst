@@ -1,0 +1,11 @@
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\consumer\ConsultaUsuarioConsumer.java
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\controller\UsuarioController.java
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\exception\UsuarioException.java
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\model\records\ConsultaUsuarioRequest.java
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\model\records\ConsultaUsuarioResponse.java
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\model\records\UsuarioRequest.java
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\model\records\UsuarioResponse.java
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\model\Usuario.java
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\MsUsuariosApplication.java
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\repository\IUsuarioRepository.java
+C:\git\ecommerce-flavia\Ecommerce\MS_Usuarios\src\main\java\br\com\ms_usuarios\service\UsuarioService.java
