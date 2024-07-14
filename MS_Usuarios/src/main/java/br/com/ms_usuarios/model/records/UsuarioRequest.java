@@ -19,12 +19,9 @@ public class UsuarioRequest {
     @NotNull
     private String nome;
     private String telefone;
-    private String email;
+    @NotNull
     private String login;
-    private String senha;
-
-    public Usuario toCliente() {
-        return new Usuario(this.cpf,this.nome, this.telefone, this.email, this.login);
-    }
+    @NotNull
+    private String password;
 
 }

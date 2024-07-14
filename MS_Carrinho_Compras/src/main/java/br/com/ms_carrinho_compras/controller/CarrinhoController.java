@@ -1,10 +1,7 @@
 package br.com.ms_carrinho_compras.controller;
 
 import br.com.ms_carrinho_compras.exception.CarrinhoException;
-import br.com.ms_carrinho_compras.model.records.CarrinhoRequest;
-import br.com.ms_carrinho_compras.model.records.CarrinhoResponse;
-import br.com.ms_carrinho_compras.model.records.ConsultaProdutoRequest;
-import br.com.ms_carrinho_compras.model.records.ConsultaProdutoResponse;
+import br.com.ms_carrinho_compras.model.records.*;
 import br.com.ms_carrinho_compras.service.CarrinhoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -57,21 +54,22 @@ public class CarrinhoController {
             @ApiResponse(responseCode = "400", description = "Carrinho não localizado."),
     })
     @PutMapping(value = "/incluirNovoItem/{id}")
-    public ResponseEntity<CarrinhoResponse> atualizaCarrinhoComNovosItens(@RequestBody CarrinhoRequest request, @PathVariable UUID id)
+    public ResponseEntity<CarrinhoResponse>
+        atualizaCarrinhoComNovosItens(@RequestBody AlteraCarrinhoRequest request, @PathVariable UUID id)
             throws CarrinhoException {
         return ResponseEntity.ok(service.adicionaItenNovoCarrinho(request, id));
     }
 
-    @Operation(description = "Atualiza carrinho novos itens")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Retorna dados do produto"),
-            @ApiResponse(responseCode = "400", description = "Carrinho não localizado."),
-    })
-    @PutMapping(value = "/removeItem/{id}")
-    public ResponseEntity<CarrinhoResponse> removeItensCarrinho(@RequestBody CarrinhoRequest request, @PathVariable UUID id)
-            throws CarrinhoException {
-        return ResponseEntity.ok(service.removeItemCarrinho(request, id));
-    }
+//    @Operation(description = "Remove itens do carrinho")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Retorna dados do produto"),
+//            @ApiResponse(responseCode = "400", description = "Carrinho não localizado."),
+//    })
+//    @PutMapping(value = "/removeItem/{id}")
+//    public ResponseEntity<CarrinhoResponse> removeItensCarrinho(@RequestBody CarrinhoRequest request, @PathVariable UUID id)
+//            throws CarrinhoException {
+//        return ResponseEntity.ok(service.removeItemCarrinho(request, id));
+//    }
 
     @Operation(description = "Deleta o carrinho")
     @ApiResponses(value = {

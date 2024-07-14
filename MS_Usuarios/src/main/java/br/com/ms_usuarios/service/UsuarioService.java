@@ -2,10 +2,7 @@ package br.com.ms_usuarios.service;
 
 import br.com.ms_usuarios.exception.UsuarioException;
 import br.com.ms_usuarios.model.Usuario;
-import br.com.ms_usuarios.model.records.ConsultaUsuarioRequest;
-import br.com.ms_usuarios.model.records.ConsultaUsuarioResponse;
-import br.com.ms_usuarios.model.records.UsuarioRequest;
-import br.com.ms_usuarios.model.records.UsuarioResponse;
+import br.com.ms_usuarios.model.records.*;
 import br.com.ms_usuarios.repository.IUsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -23,19 +25,37 @@ public class UsuarioService {
     @Autowired
     private IUsuarioRepository repository;
 
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    public LoginResponse login(LoginRequest request) throws UsuarioException {
+
+        UserDetails possivelUsuario = repository.findByLogin(request.getLogin());
+        if(possivelUsuario == null) {
+            throw new UsuarioException("Usuario não localizado");
+        }
+
+        UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword());
+        Authentication auth = this.authenticationManager.authenticate(usernamePassword);
+        return tokenService.generateToken((Usuario) auth.getPrincipal());
+    }
+
     public UsuarioResponse inserirUsuario(UsuarioRequest request) throws UsuarioException {
 
         Usuario usuario = new Usuario();
         if(!(repository.findByCpf(usuario.getCpf()).isEmpty())){
            throw new UsuarioException("O CPF informado já existe!");
         }
+        String encryptedPassword = new BCryptPasswordEncoder().encode(request.getPassword());
 
         usuario.setCpf(request.getCpf());
         usuario.setNome(request.getNome());
         usuario.setTelefone(request.getTelefone());
-        usuario.setEmail(request.getEmail());
         usuario.setLogin(request.getLogin());
-        usuario.setSenha(request.getSenha());
+        usuario.setPassword(encryptedPassword);
         Usuario sc = repository.save(usuario);
         return new UsuarioResponse(sc);
     }
@@ -60,7 +80,6 @@ public class UsuarioService {
             usuario.setCpf(request.getCpf());
             usuario.setNome(request.getNome());
             usuario.setTelefone(request.getTelefone());
-            usuario.setEmail(request.getEmail());
             Usuario sc = repository.save(usuario);
             return new UsuarioResponse(sc);
         } catch (Exception e) {

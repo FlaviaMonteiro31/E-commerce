@@ -1,5 +1,7 @@
 package br.com.ms_usuarios.controller;
 import br.com.ms_usuarios.exception.UsuarioException;
+import br.com.ms_usuarios.model.records.LoginRequest;
+import br.com.ms_usuarios.model.records.LoginResponse;
 import br.com.ms_usuarios.model.records.UsuarioRequest;
 import br.com.ms_usuarios.model.records.UsuarioResponse;
 import br.com.ms_usuarios.service.UsuarioService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,6 +26,11 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService service;
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request) throws UsuarioException {
+        return ResponseEntity.ok(service.login(request));
+    }
 
     @Operation(description = "Realiza o cadastro do usuario")
     @ApiResponses(value = {

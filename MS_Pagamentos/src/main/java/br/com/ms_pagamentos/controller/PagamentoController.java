@@ -12,13 +12,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/pagamento")
@@ -39,18 +37,29 @@ public class PagamentoController {
         return ResponseEntity.created(uri).body(response);
     }
 
-    @Operation(description = "Gera o pedido")
+//    @Operation(description = "Gera o pedido")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Pedido criado"),
+//    })
+//    @PostMapping(value = "/geraPedido")
+//    public ResponseEntity<PedidoResponse> gerarPedido(@RequestBody @Valid PedidoRequest request)
+//            throws PagamentoException {
+//
+//        PedidoResponse response = service.gerarPedido(request);
+//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(response.getId()).toUri();
+//
+//        return ResponseEntity.created(uri).body(response);
+//    }
+
+    @Operation(description = "Consulta status do pagamento.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Pedido criado"),
+            @ApiResponse(responseCode = "200", description = "Retorna status do pagamento"),
+            @ApiResponse(responseCode = "400", description = "Carrinho não localizado.")
     })
-    @PostMapping(value = "/geraPedido")
-    public ResponseEntity<PedidoResponse> gerarPedido(@RequestBody @Valid PedidoRequest request)
+    @GetMapping("/consultaPagamento/{id}")
+    public ResponseEntity<PagamentoResponse> listaPorId(@PathVariable UUID id)
             throws PagamentoException {
-
-        PedidoResponse response = service.gerarPedido(request);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(response.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(response);
+        return ResponseEntity.ok(service.retornaStatusPagamento(id));
     }
 
 }

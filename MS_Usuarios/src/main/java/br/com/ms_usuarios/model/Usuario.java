@@ -3,35 +3,68 @@ package br.com.ms_usuarios.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name="tb_usuario")
-public class Usuario {
+public class Usuario implements UserDetails {
+     //@GeneratedValue(strategy = GenerationType.UUID)
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID clientId;
     private String cpf;
     private String nome;
     private String telefone;
-    private String email;
     private String login;
-    private String senha;
+    private String password;
 
-
-    public Usuario(String cpf, String nome, String telefone, String email, String login) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.telefone = telefone;
-        this.email = email;
-        this.login = login;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_DEFAULT"));
     }
 
-    public Usuario() {
+    @Override
+    public String getPassword() {
+        return this.password;
     }
+
+    @Override
+    public String getUsername() {
+        return this.login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 }
+
+

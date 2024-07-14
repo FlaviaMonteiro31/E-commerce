@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -29,13 +29,16 @@ public class Pagamento {
     )
     @Column(name = "idpagamento", updatable = false, nullable = false)
     private UUID idpagamento;
+    private UUID idcarrinho;
     private FormaPagamentoEnum formapagamento;
     private MeioPagamentoEnum meiopagamento;
+    private BigDecimal valorCarrinho;
     private String pixCopiaCola;
     private String numeroCartao;
     private Date dataValidadeCartao;
-    private int codigoSeguranca;
+    private Integer codigoSeguranca;
     private String titularCartao;
+    private BigDecimal valorParcelaCartao;
     private String statusPagamento;
     private String numeroPedidoGerado;
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +28,10 @@ public class Carrinho {
     @Column(name = "idcarrinho", updatable = false, nullable = false)
     private UUID idcarrinho;
     private UUID usuario;
-    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Item> itens;
     private BigDecimal valorCarrinho;
+
+
 }

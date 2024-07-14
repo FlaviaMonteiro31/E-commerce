@@ -16,7 +16,6 @@ public class ConsultaUsuarioResponse {
     private String cpf;
     private String nome;
     private String telefone;
-    private String email;
     private String login;
 
     public ConsultaUsuarioResponse(Usuario usuario) {
@@ -24,7 +23,6 @@ public class ConsultaUsuarioResponse {
         this.cpf = usuario.getCpf();
         this.nome = usuario.getNome();
         this.telefone = usuario.getTelefone();
-        this.email = usuario.getEmail();
         this.login = usuario.getLogin();
     }
 }

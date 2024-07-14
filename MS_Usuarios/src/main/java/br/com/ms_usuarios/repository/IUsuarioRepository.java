@@ -4,6 +4,7 @@ import br.com.ms_usuarios.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -14,4 +15,6 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Query(value = "SELECT p FROM Usuario p WHERE p.clientId = :clientId")
     Usuario findUsuarioByIdNative(@Param("clientId") UUID clientId);
+
+    UserDetails findByLogin(String login);
 }
