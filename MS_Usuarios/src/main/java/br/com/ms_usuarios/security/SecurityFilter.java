@@ -1,6 +1,7 @@
 package br.com.ms_usuarios.security;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import br.com.ms_usuarios.repository.IUsuarioRepository;
 import br.com.ms_usuarios.service.TokenService;
@@ -27,8 +28,9 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = this.recoverToken(request);
         if(token != null){
-            String login = tokenService.validateToken(token);
-            UserDetails user = usuarioRepository.findByLogin(login);
+            String clientId = tokenService.validateToken(token);
+            System.out.println("Dados do login: " + clientId);
+            UserDetails user = usuarioRepository.findByClientId(UUID.fromString(clientId));
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

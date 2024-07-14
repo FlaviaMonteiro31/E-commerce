@@ -20,7 +20,7 @@ import java.util.UUID;
 @Entity
 @Table(name="tb_usuario")
 public class Usuario implements UserDetails {
-     //@GeneratedValue(strategy = GenerationType.UUID)
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID clientId;

@@ -17,4 +17,5 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, UUID> {
     Usuario findUsuarioByIdNative(@Param("clientId") UUID clientId);
 
     UserDetails findByLogin(String login);
+    UserDetails findByClientId(UUID clientID);
 }
