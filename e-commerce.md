@@ -21,7 +21,8 @@ https://github.com/FlaviaMonteiro31/e-commerce.git
 1º - Ter instalado Docker na máquina
 2º - Executar o comando docker:
 
-> docker-compose build 
+> docker-compose build
+
 > docker-compose up 
 
 ## Tecnologias utilizadas
@@ -61,8 +62,11 @@ https://github.com/FlaviaMonteiro31/e-commerce.git
 ## Documentação do Swagger
 
 MS_Usuarios: [Swagger_Ms_Usuarios.json](https://github.com/FlaviaMonteiro31/e-commerce/blob/main/Ms_Usuarios.yaml)
+
 MS_Gestao_Itens: [Swagger_Ms_Gestao_Itens.json](https://github.com/FlaviaMonteiro31/e-commerce/blob/main/Ms_Gestao_Itens.yaml)
+
 MS_Carrinho_Compras: [Swagger_Ms_Carrinho.json](https://github.com/FlaviaMonteiro31/e-commerce/blob/main/Ms_Carrinho.yaml)
+
 MS_Pagamentos: [Swagger_Ms_Pagamentos.json](https://github.com/FlaviaMonteiro31/e-commerce/blob/main/Ms_Pagamentos.yaml)
 
 ## Requisições HTTP/Insomnia
