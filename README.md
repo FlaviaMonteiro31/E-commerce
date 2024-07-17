@@ -21,7 +21,8 @@ https://github.com/FlaviaMonteiro31/e-commerce.git
 1º - Ter instalado Docker na máquina
 2º - Executar o comando docker:
 
-> docker-compose build 
+> docker-compose build
+
 > docker-compose up 
 
 ## Tecnologias utilizadas
