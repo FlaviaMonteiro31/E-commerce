@@ -1,0 +1,128 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8086
+    description: Generated server url
+paths:
+  /pagamento/pagar:
+    post:
+      tags:
+        - pagamento-controller
+      description: Realiza o pagamento
+      operationId: pagar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PagamentoRequest'
+        required: true
+      responses:
+        '200':
+          description: Retorna dados pagamento
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagamentoResponse'
+  /pagamento/consultaPagamento/{id}:
+    get:
+      tags:
+        - pagamento-controller
+      description: Consulta status do pagamento.
+      operationId: listaPorId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Retorna status do pagamento
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagamentoResponse'
+        '400':
+          description: Carrinho não localizado.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagamentoResponse'
+components:
+  schemas:
+    PagamentoRequest:
+      type: object
+      properties:
+        idcarrinho:
+          type: string
+          format: uuid
+        formapagamento:
+          type: string
+          enum:
+            - AVISTA
+            - PARCELAMENTO_2X
+            - PARCELAMENTO_3X
+            - PARCELAMENTO_4X
+        meiopagamento:
+          type: string
+          enum:
+            - PIX
+            - CARTAO_DEBITO
+            - CARTAO_CREDITO
+        pixCopiaCola:
+          type: string
+        numeroCartao:
+          type: string
+        dataValidadeCartao:
+          type: string
+          format: date-time
+        codigoSegunca:
+          type: integer
+          format: int32
+        titularCartao:
+          type: string
+    PagamentoResponse:
+      type: object
+      properties:
+        idcarrinho:
+          type: string
+          format: uuid
+        idpagamento:
+          type: string
+          format: uuid
+        formapagamento:
+          type: string
+          enum:
+            - AVISTA
+            - PARCELAMENTO_2X
+            - PARCELAMENTO_3X
+            - PARCELAMENTO_4X
+        meiopagamento:
+          type: string
+          enum:
+            - PIX
+            - CARTAO_DEBITO
+            - CARTAO_CREDITO
+        valorCarrinho:
+          type: number
+        pixCopiaCola:
+          type: string
+        numeroCartao:
+          type: string
+        dataValidadeCartao:
+          type: string
+          format: date-time
+        codigoSegunca:
+          type: integer
+          format: int32
+        titularCartao:
+          type: string
+        valorParcelaCartao:
+          type: number
+        statusPagamento:
+          type: string
+        numeroPedidoGerado:
+          type: string

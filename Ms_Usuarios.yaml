@@ -1,0 +1,320 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8084
+    description: Generated server url
+paths:
+  /usuario/atualizar/{id}:
+    put:
+      tags:
+        - usuario-controller
+      description: Atualiza dados do usuario
+      operationId: atualizarUsuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequest'
+        required: true
+      responses:
+        '200':
+          description: Retorna dados do usuaro
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsuarioResponse'
+        '400':
+          description: Usuario não localizado.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsuarioResponse'
+  /usuario/login:
+    post:
+      tags:
+        - usuario-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+  /usuario/cadastrar:
+    post:
+      tags:
+        - usuario-controller
+      description: Realiza o cadastro do usuario
+      operationId: inserirUsuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequest'
+        required: true
+      responses:
+        '200':
+          description: Retorna dados do usuario cadastrado
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsuarioResponse'
+  /usuario/listaUsuario/{id}:
+    get:
+      tags:
+        - usuario-controller
+      description: Consulta dados usuario por Id.
+      operationId: listaUsuarioPorId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Retorna dados do usuario
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsuarioResponse'
+        '400':
+          description: Usuario não localizado.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsuarioResponse'
+  /usuario/listaTodos:
+    get:
+      tags:
+        - usuario-controller
+      description: Consulta dados de usuarios
+      operationId: listarTodosUsuario
+      parameters:
+        - name: pagina
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: tamanho
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+      responses:
+        '200':
+          description: Retorna dados de todos os usuarios
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageUsuarioResponse'
+  /usuario/{id}:
+    delete:
+      tags:
+        - usuario-controller
+      description: Deleta dados do usuario
+      operationId: deletaUsuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Dados deletados usuario
+          content:
+            '*/*':
+              schema:
+                type: string
+  /controle-usuario/consultaUsuario:
+    post:
+      description: consultaUsuario function
+      operationId: consultaUsuario_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultaUsuarioRequest'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/ConsultaUsuarioRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultaUsuarioResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ConsultaUsuarioResponse'
+  /controle-usuario/consultaUsuario/{consultaUsuario}:
+    get:
+      description: consultaUsuario function
+      operationId: consultaUsuario_GET
+      parameters:
+        - name: consultaUsuario
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ConsultaUsuarioRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultaUsuarioResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ConsultaUsuarioResponse'
+components:
+  schemas:
+    UsuarioRequest:
+      required:
+        - login
+        - nome
+        - password
+      type: object
+      properties:
+        cpf:
+          type: string
+        nome:
+          type: string
+        telefone:
+          type: string
+        login:
+          type: string
+        password:
+          type: string
+    UsuarioResponse:
+      type: object
+      properties:
+        clientId:
+          type: string
+          format: uuid
+        cpf:
+          type: string
+        nome:
+          type: string
+        telefone:
+          type: string
+        login:
+          type: string
+    LoginRequest:
+      required:
+        - login
+        - password
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+    PageUsuarioResponse:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsuarioResponse'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        unpaged:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    ConsultaUsuarioRequest:
+      type: object
+      properties:
+        clientId:
+          type: string
+          format: uuid
+    ConsultaUsuarioResponse:
+      type: object
+      properties:
+        clientId:
+          type: string
+          format: uuid
+        cpf:
+          type: string
+        nome:
+          type: string
+        telefone:
+          type: string
+        login:
+          type: string

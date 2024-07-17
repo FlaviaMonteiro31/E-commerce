@@ -1,6 +1,7 @@
 package br.com.ms_pagamentos.integration;
 
 import br.com.ms_pagamentos.model.records.ConsultaCarrinhoResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,9 @@ import org.springframework.messaging.MessageChannel;
 @Configuration
 public class ConsultaCarrinhoConfiguration {
 
+    @Value("${ms.carrinho}")
+    private String consultaCarrinhoUrl;
+
     @Bean
     public MessageChannel consultaCarrinho(){
         DirectChannel directChannel = new DirectChannel();
@@ -22,7 +26,7 @@ public class ConsultaCarrinhoConfiguration {
     @Bean
     public IntegrationFlow consultaCarrinhoFlow(){
         return IntegrationFlow.from("consultaCarrinho")
-                .handle(Http.outboundGateway("http://localhost:8083/controle-carrinho/consultaCarrinho")
+                .handle(Http.outboundGateway(consultaCarrinhoUrl)
                         .httpMethod(HttpMethod.POST)
                         .expectedResponseType(ConsultaCarrinhoResponse.class))
                 .log()

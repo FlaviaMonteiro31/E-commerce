@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.com</groupId>
-    <artifactId>MS_Usuarios</artifactId>
+    <artifactId>ms_usuarios</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>MS_Clientes</name>
     <description>MS_Clientes</description>

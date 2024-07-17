@@ -1,0 +1,288 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8087
+    description: Generated server url
+paths:
+  /carrinho/incluirNovoItem/{id}:
+    put:
+      tags:
+        - carrinho-controller
+      description: Atualiza carrinho novos itens
+      operationId: atualizaCarrinhoComNovosItens
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlteraCarrinhoRequest'
+        required: true
+      responses:
+        '200':
+          description: Retorna dados do produto
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CarrinhoResponse'
+        '400':
+          description: Carrinho não localizado.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CarrinhoResponse'
+  /carrinho/criaCarrinho:
+    post:
+      tags:
+        - carrinho-controller
+      description: 'Insere itens no carrinho '
+      operationId: insereItensCarrinho
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarrinhoRequest'
+        required: true
+      responses:
+        '200':
+          description: Produto inserido com sucesso
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CarrinhoResponse'
+  /carrinho/consultaProduto:
+    post:
+      tags:
+        - carrinho-controller
+      operationId: consulta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultaProdutoRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultaProdutoResponse'
+  /carrinho/lista/{id}:
+    get:
+      tags:
+        - carrinho-controller
+      description: Consulta itens do carrinho por Id do usu[ario.
+      operationId: listaPorId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Retorna dados do carrinho
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CarrinhoResponse'
+        '400':
+          description: Carrinho não localizado.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CarrinhoResponse'
+  /carrinho/{id}:
+    delete:
+      tags:
+        - carrinho-controller
+      description: Deleta o carrinho
+      operationId: deletaCarrinho
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Dados deletados.
+          content:
+            '*/*':
+              schema:
+                type: string
+  /controle-carrinho/consultaCarrinho:
+    post:
+      description: consultaCarrinho function
+      operationId: consultaCarrinho_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultaCarrinhoRequest'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/ConsultaCarrinhoRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultaCarrinhoResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ConsultaCarrinhoResponse'
+  /controle-carrinho/consultaCarrinho/{consultaCarrinho}:
+    get:
+      description: consultaCarrinho function
+      operationId: consultaCarrinho_GET
+      parameters:
+        - name: consultaCarrinho
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ConsultaCarrinhoRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultaCarrinhoResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ConsultaCarrinhoResponse'
+components:
+  schemas:
+    AlteraCarrinhoRequest:
+      required:
+        - itens
+      type: object
+      properties:
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    Carrinho:
+      type: object
+      properties:
+        idcarrinho:
+          type: string
+          format: uuid
+        usuario:
+          type: string
+          format: uuid
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        valorCarrinho:
+          type: number
+    Item:
+      type: object
+      properties:
+        iditem:
+          type: string
+          format: uuid
+        idproduto:
+          type: string
+          format: uuid
+        quantidade:
+          type: number
+        carrinho:
+          $ref: '#/components/schemas/Carrinho'
+        valoritem:
+          type: number
+    CarrinhoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        usuario:
+          type: string
+          format: uuid
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemResponse'
+        valorCarrinho:
+          type: number
+    ItemResponse:
+      type: object
+      properties:
+        idproduto:
+          type: string
+          format: uuid
+        quantidade:
+          type: number
+        valoritem:
+          type: number
+    CarrinhoRequest:
+      required:
+        - itens
+      type: object
+      properties:
+        usuario:
+          type: string
+          format: uuid
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    ConsultaProdutoRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    ConsultaProdutoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        descricao:
+          type: string
+        tamanho:
+          type: string
+        cor:
+          type: string
+        preco:
+          type: number
+        quantidade:
+          type: number
+    ConsultaCarrinhoRequest:
+      type: object
+      properties:
+        idcarrinho:
+          type: string
+          format: uuid
+    ConsultaCarrinhoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        usuario:
+          type: string
+          format: uuid
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemResponse'
+        valorCarrinho:
+          type: number

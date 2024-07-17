@@ -1,0 +1,335 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8085
+    description: Generated server url
+paths:
+  /gestaoItensProdutos/atualizar/{id}:
+    put:
+      tags:
+        - produto-controller
+      description: Atualiza dados do produto
+      operationId: atualizaProduto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProdutoResquest'
+        required: true
+      responses:
+        '200':
+          description: Retorna dados do produto
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProdutoResponse'
+        '400':
+          description: Produto não localizado.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProdutoResponse'
+  /gestaoItensProdutos/consultaProduto:
+    post:
+      tags:
+        - produto-controller
+      operationId: consultaProduto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultaProdutoRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ConsultaProdutoResponse'
+  /gestaoItensProdutos/cadastrar:
+    post:
+      tags:
+        - produto-controller
+      description: Realiza do cadastro do produto e estoque
+      operationId: inserirProdutoEstoque
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProdutoResquest'
+        required: true
+      responses:
+        '200':
+          description: Retorna dados do produto e estoque cadastrado
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProdutoResponse'
+  /gestaoItensProdutos/listaTodos:
+    get:
+      tags:
+        - produto-controller
+      description: Consulta todos os produtos
+      operationId: listarTodos
+      parameters:
+        - name: pagina
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: tamanho
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+      responses:
+        '200':
+          description: Retorna dados de todos os produtos e estoque
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageProdutoResponse'
+  /gestaoItensProdutos/lista/{id}:
+    get:
+      tags:
+        - produto-controller
+      description: Consulta dados de produto por Id.
+      operationId: listaPorId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Retorna dados do produto e estoque
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProdutoResponse'
+        '400':
+          description: Produto não localizado.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProdutoResponse'
+  /gestaoItensProdutos/{id}:
+    delete:
+      tags:
+        - produto-controller
+      description: Deleta produto e estoque
+      operationId: deletaProduto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Dados deletados.
+          content:
+            '*/*':
+              schema:
+                type: string
+  /controle-produtos/consultaProduto:
+    post:
+      description: consultaProduto function
+      operationId: consultaProduto_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultaProdutoRequest'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/ConsultaProdutoRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultaProdutoResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ConsultaProdutoResponse'
+  /controle-produtos/consultaProduto/{consultaProduto}:
+    get:
+      description: consultaProduto function
+      operationId: consultaProduto_GET
+      parameters:
+        - name: consultaProduto
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ConsultaProdutoRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultaProdutoResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ConsultaProdutoResponse'
+  /controle-produtos/removerEstoque:
+    post:
+      description: removerEstoque consumer
+      operationId: removerEstoque_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProdutoEstoqueRequest'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/ProdutoEstoqueRequest'
+      responses:
+        '202':
+          description: Accepted
+          content: {}
+components:
+  schemas:
+    ProdutoResquest:
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        tamanho:
+          type: string
+        cor:
+          type: string
+        preco:
+          type: number
+        quantidade:
+          type: number
+    ProdutoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        descricao:
+          type: string
+        tamanho:
+          type: string
+        cor:
+          type: string
+        preco:
+          type: number
+        quantidade:
+          type: number
+    ConsultaProdutoRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    ConsultaProdutoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        descricao:
+          type: string
+        tamanho:
+          type: string
+        cor:
+          type: string
+        preco:
+          type: number
+        quantidade:
+          type: number
+    PageProdutoResponse:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProdutoResponse'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        unpaged:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    ProdutoEstoqueRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        quantidade:
+          type: number
